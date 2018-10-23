@@ -4,8 +4,8 @@ This requires IPython 3 and a Lisp executable - eg sbcl saved with its core or a
 
 To install::
 
-    pip install lisp_kernel
-    python -m lisp_kernel.install
+    pip install lisp_shell
+    python -m lisp_shell.install
 
 To use it, run one of:
 
