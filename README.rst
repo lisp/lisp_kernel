@@ -4,8 +4,8 @@ This requires IPython 3 and a Lisp executable - eg sbcl saved with its core or a
 
 To install::
 
-    pip install lisp_shell_kernel
-    python -m lisp_shell_kernel.install
+    pip install lisp_kernel
+    python -m lisp_kernel.install
 
 To use it, run one of:
 
@@ -14,7 +14,7 @@ To use it, run one of:
     jupyter notebook
     # In the notebook interface, select lisp_shell from the 'New' menu
     jupyter qtconsole --kernel lisp_shell
-    jupyter console --kernel lis_shell
+    jupyter console --kernel lisp_shell
 
 For details of how this works, see the Jupyter docs on `wrapper kernels
 <http://jupyter-client.readthedocs.org/en/latest/wrapperkernels.html>`_, and
