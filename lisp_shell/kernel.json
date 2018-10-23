@@ -1,0 +1,7 @@
+{
+ "argv": ["python3", "-m", "lisp_shell",
+          "-f", "{connection_file}"],
+ "display_name": "Lisp",
+ "language": "lisp",
+ "codemirror_mode": "text/x-common-lisp"
+}
