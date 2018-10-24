@@ -50,7 +50,7 @@ class LispKernel(Kernel):
         # reset it from the subprocess. Since kernelapp ignores SIGINT except in
         # message handlers, we need to temporarily reset the SIGINT handler here
         # so that the child and its children are interruptible.
-        syslog.openlog('kernel')
+        #syslog.openlog('kernel')
         sig = signal.signal(signal.SIGINT, signal.SIG_DFL)
         try:
             # Note: the next few lines mirror functionality in the
@@ -66,7 +66,7 @@ class LispKernel(Kernel):
 
 
     def process_output(self, output):
-        syslog.syslog(output)
+        #syslog.syslog(output)
         if not self.silent:
             # Send standard output
             stream_content = {'name': 'stdout', 'text': output}
@@ -80,17 +80,17 @@ class LispKernel(Kernel):
         cmdlines = code.splitlines()
         if not cmdlines:
             raise ValueError("No command was given")
-        syslog.syslog('run_command(' + code + ')')
+        #syslog.syslog('run_command(' + code + ')')
 
         for line in cmdlines:
-            syslog.syslog('run_command.line(' + line + ')')
+            #syslog.syslog('run_command.line(' + line + ')')
             self.child.sendline(line)
-        syslog.syslog('run_command.pad')
+        #syslog.syslog('run_command.pad')
         self.child.sendline('')
         mode = self.child.expect(['\\* ', '\\d*] '], -1)
         self.process_output(self.child.before)
         if mode == 1 :
-          syslog.syslog('run_command: abort')
+          #syslog.syslog('run_command: abort')
           self.child.sendline(':abort')
           mode = self.child.expect('\\* ', -1)
           self.process_output(self.child.before)
@@ -101,7 +101,7 @@ class LispKernel(Kernel):
         if not code.strip():
             return {'status': 'ok', 'execution_count': self.execution_count,
                     'payload': [], 'user_expressions': {}}
-        syslog.syslog('do_execute(' + code + ')')
+        #syslog.syslog('do_execute(' + code + ')')
         interrupted = False
         try:
             # Note: timeout=None tells IREPLWrapper to do incremental
@@ -124,12 +124,12 @@ class LispKernel(Kernel):
         if interrupted:
             return {'status': 'abort', 'execution_count': self.execution_count}
 
-        syslog.syslog('return ok')
+        #syslog.syslog('return ok')
         return {'status': 'ok', 'execution_count': self.execution_count,
                 'payload': [], 'user_expressions': {}}
 
     def do_complete(self, code, cursor_pos):
-        syslog.syslog('do_complete(' + code + ')')
+        #syslog.syslog('do_complete(' + code + ')')
         code = code[:cursor_pos]
         default = {'matches': [], 'cursor_start': 0,
                    'cursor_end': cursor_pos, 'metadata': dict(),
