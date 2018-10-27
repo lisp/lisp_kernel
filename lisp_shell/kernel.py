@@ -8,6 +8,7 @@ import os.path
 import re
 import signal
 import syslog
+import pprint
 
 __version__ = '0.0.1'
 
@@ -57,13 +58,18 @@ class LispKernel(Kernel):
             # bash() function of pexpect/replwrap.py.  Look at the
             # source code there for comments and context for
             # understanding the code here.
-            self.child = pexpect.spawn('lisp', ['--lispinit', '/opt/spocq/init.sxp'], echo=False,
+            self.child = pexpect.spawn('lisp', ['--eval', '(spocq.si::main-repl)', '--lispinit', '/opt/spocq/init.sxp'], echo=False,
                                        encoding='utf-8', codec_errors='replace')
             self.lispwrapper = replwrap.REPLWrapper(self.child, u'\*', None, '', '')
             self.child.expect_exact('* ', -1)
         finally:
             signal.signal(signal.SIGINT, sig)
 
+
+    #@gen.coroutine
+    def execute_request(self, stream, ident, parent):
+        syslog.syslog('execute-request: ' + pprint.pformat(parent))
+        super(LispKernel, self).execute_request(stream, ident, parent)
 
     def process_output(self, output):
         #syslog.syslog(output)
